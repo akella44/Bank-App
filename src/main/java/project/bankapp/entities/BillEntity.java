@@ -1,11 +1,14 @@
 package project.bankapp.entities;
 
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.*;
 
 import java.util.UUID;
 
-@Data
+@ToString
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 @Entity
 @Table(name = "bills")
 public class BillEntity {
@@ -14,6 +17,8 @@ public class BillEntity {
     private UUID id;
     @ManyToOne
     private UserEntity owner;
+    @Column(nullable = false)
     private String currency;
+    @Column(nullable = false)
     private Long value;
 }

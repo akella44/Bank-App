@@ -1,4 +1,4 @@
-package project.bankapp.repository;
+package project.bankapp.repositories;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import project.bankapp.entities.TransactionEntity;
@@ -8,6 +8,6 @@ import java.util.List;
 import java.util.UUID;
 
 public interface TransactionRepository extends JpaRepository<TransactionEntity, UUID> {
-    List<TransactionEntity> findByFromUser(UserEntity userEntity);
-    List<TransactionEntity> findByToUser(UserEntity userEntity);
+    List<TransactionEntity> findByFromUserEntity(UserEntity userEntity);
+    List<TransactionEntity> findByToUserEntity(UserEntity userEntity);
 }

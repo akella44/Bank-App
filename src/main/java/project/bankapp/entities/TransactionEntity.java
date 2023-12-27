@@ -1,11 +1,14 @@
 package project.bankapp.entities;
 
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.*;
 
 import java.util.UUID;
 
-@Data
+@ToString
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 @Entity
 @Table(name = "transactions")
 public class TransactionEntity {
@@ -20,5 +23,6 @@ public class TransactionEntity {
     private UserEntity fromUserEntity;
     @OneToOne
     private UserEntity toUserEntity;
+    @Column(nullable = false)
     private Long value;
 }

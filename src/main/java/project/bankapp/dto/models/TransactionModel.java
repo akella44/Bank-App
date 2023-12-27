@@ -1,7 +1,9 @@
-package project.bankapp.model;
+package project.bankapp.dto.models;
+
+import lombok.Data;
 
 import java.util.UUID;
-
+@Data
 public class TransactionModel {
     private UUID id;
     private BillModel fromBillEntity;

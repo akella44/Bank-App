@@ -1,4 +1,4 @@
-package project.bankapp.repository;
+package project.bankapp.repositories;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import project.bankapp.entities.UserEntity;
