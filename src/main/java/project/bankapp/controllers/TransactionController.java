@@ -5,18 +5,18 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import project.bankapp.dto.requests.CashTransferRequest;
 import project.bankapp.dto.requests.ReplenishmentRequest;
+import project.bankapp.dto.requests.TransactionsGetResponse;
 import project.bankapp.exceptions.InvalidArgException;
-import project.bankapp.exceptions.InvalidOpertaionException;
+import project.bankapp.exceptions.NotEnoughCashException;
 import project.bankapp.exceptions.WrongCardNumberException;
+import project.bankapp.exceptions.WrongCurrencyTypeException;
 import project.bankapp.services.securityServices.jwt.JwtService;
-import project.bankapp.services.transactionServices.CashTransferService;
-import project.bankapp.services.transactionServices.ReplenishmentService;
+import project.bankapp.services.transactionServices.TransactionService;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/user/bill")
@@ -24,14 +24,13 @@ import project.bankapp.services.transactionServices.ReplenishmentService;
 @Slf4j
 public class TransactionController {
     private final JwtService jwtService;
-    private final ReplenishmentService billTopUpService;
-    private final CashTransferService cashTransferService;
+    private final TransactionService transactionService;
     @PostMapping("/replenishment")
     @PreAuthorize("hasAuthority('USER')")
     HttpStatus topUpUserBill(@RequestBody ReplenishmentRequest replenishmentRequest,
                              HttpServletRequest request) throws WrongCardNumberException {
         try{
-            billTopUpService.topUp(replenishmentRequest, jwtService.getUserModelByReqWithToken(request).getEmail());
+            transactionService.replenish(replenishmentRequest, jwtService.getUserModelByReqWithToken(request).getEmail());
             return HttpStatus.OK;
         }
         catch (WrongCardNumberException ex){
@@ -47,14 +46,25 @@ public class TransactionController {
     HttpStatus transferMoney(@RequestBody CashTransferRequest cashTransferRequest,
                              HttpServletRequest request) {
         try{
-            cashTransferService.transfer(cashTransferRequest, jwtService.getUserModelByReqWithToken(request).getEmail());
+            transactionService.transfer(cashTransferRequest, jwtService.getUserModelByReqWithToken(request).getEmail());
             return HttpStatus.OK;
         }
-        catch (InvalidArgException ex){
+        catch (InvalidArgException | WrongCurrencyTypeException | NotEnoughCashException ex){
             return HttpStatus.BAD_REQUEST;
         } catch (Exception ex){
-            ex.printStackTrace();
             return HttpStatus.INTERNAL_SERVER_ERROR;
         }
+    }
+
+    @GetMapping("/transactions")
+    @PreAuthorize("hasAuthority('USER')")
+    List<TransactionsGetResponse> transferMoney(HttpServletRequest request) {
+       try{
+           return transactionService.getTransactions(
+                   jwtService.getUserModelByReqWithToken(request).getEmail());
+       }
+       catch (Exception ex){
+           return null;
+       }
     }
 }

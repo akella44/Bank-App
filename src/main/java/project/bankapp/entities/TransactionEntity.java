@@ -10,19 +10,20 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@Getter
 @Entity
 @Table(name = "transactions")
 public class TransactionEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
-    @OneToOne
+    @ManyToOne
     private BillEntity fromBillEntity;
-    @OneToOne
+    @ManyToOne
     private BillEntity toBillEntity;
-    @OneToOne
+    @ManyToOne
     private UserEntity fromUserEntity;
-    @OneToOne
+    @ManyToOne
     private UserEntity toUserEntity;
     @Column(nullable = false)
     private Long value;
