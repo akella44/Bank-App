@@ -1,4 +1,4 @@
-package project.bankapp.services.bills;
+package project.bankapp.services.billServices;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -10,8 +10,6 @@ import project.bankapp.dto.requests.BillCreationRequest;
 import project.bankapp.dto.requests.BillsGetResponse;
 
 import java.util.List;
-import java.util.Random;
-
 @Service
 @RequiredArgsConstructor
 @Slf4j
@@ -38,7 +36,6 @@ public class BillServiceImpl implements BillService{
                 .map(BillsGetResponse::fromBillModel)
                 .toList();
     }
-
 
 }
 

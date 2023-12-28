@@ -37,13 +37,10 @@ public class UserDao {
         );
     }
 
-    public Boolean isUserWithEmailExist(String email){
-        return userRepository.findByEmail(email) != null;
-    }
+    public Boolean isUserWithEmailExist(String email){ return userRepository.existsByEmail(email); }
 
     public Boolean isUserCredsValid(String email, String password){
         UserEntity user = userRepository.findByEmail(email);
-        log.info("user: " + user.getEmail() + " " + user.getPassword());
         return passwordEncoder.matches(password, user.getPassword());
     }
 }

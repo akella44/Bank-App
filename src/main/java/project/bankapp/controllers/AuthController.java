@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import project.bankapp.dto.requests.UserLoginRequest;
 import project.bankapp.dto.requests.UserRegisterRequest;
 import project.bankapp.dto.response.LoginResponse;
-import project.bankapp.services.auth.UserAuthServiceImpl;
+import project.bankapp.services.authServices.UserAuthServiceImpl;
 
 @RestController
 @RequestMapping("/api/v1/auth")

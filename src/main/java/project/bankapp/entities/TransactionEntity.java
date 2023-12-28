@@ -2,6 +2,7 @@ package project.bankapp.entities;
 
 import jakarta.persistence.*;
 import lombok.*;
+import project.bankapp.enums.TransactionType;
 
 import java.util.UUID;
 
@@ -25,4 +26,6 @@ public class TransactionEntity {
     private UserEntity toUserEntity;
     @Column(nullable = false)
     private Long value;
+    @Enumerated(EnumType.STRING)
+    private TransactionType transactionType;
 }

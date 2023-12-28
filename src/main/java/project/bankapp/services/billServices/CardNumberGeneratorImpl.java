@@ -1,4 +1,4 @@
-package project.bankapp.services.bills;
+package project.bankapp.services.billServices;
 
 import org.springframework.stereotype.Component;
 

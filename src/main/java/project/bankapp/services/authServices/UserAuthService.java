@@ -1,4 +1,4 @@
-package project.bankapp.services.auth;
+package project.bankapp.services.authServices;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

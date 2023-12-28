@@ -1,4 +1,4 @@
-package project.bankapp.services.auth;
+package project.bankapp.services.authServices;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;

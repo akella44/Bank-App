@@ -7,11 +7,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-import project.bankapp.dto.models.BillModel;
 import project.bankapp.dto.requests.BillCreationRequest;
 import project.bankapp.dto.requests.BillsGetResponse;
-import project.bankapp.services.bills.BillService;
-import project.bankapp.services.security.jwt.JwtService;
+import project.bankapp.services.billServices.BillService;
+import project.bankapp.services.securityServices.jwt.JwtService;
 
 import java.util.List;
 

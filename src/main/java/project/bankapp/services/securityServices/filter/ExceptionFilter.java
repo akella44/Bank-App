@@ -1,4 +1,4 @@
-package project.bankapp.services.security.filter;
+package project.bankapp.services.securityServices.filter;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

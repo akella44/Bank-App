@@ -1,4 +1,4 @@
-package project.bankapp.services.security.filter;
+package project.bankapp.services.securityServices.filter;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 import project.bankapp.dao.UserDao;
 import project.bankapp.dto.models.UserModel;
-import project.bankapp.services.security.jwt.JwtService;
+import project.bankapp.services.securityServices.jwt.JwtService;
 
 import java.io.IOException;
 import java.util.Objects;

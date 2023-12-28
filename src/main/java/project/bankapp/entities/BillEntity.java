@@ -2,6 +2,7 @@ package project.bankapp.entities;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.stereotype.Service;
 import project.bankapp.enums.CurrencyType;
 
 import java.util.UUID;
@@ -10,6 +11,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
+@Setter
 @Builder
 @Entity
 @Table(name = "bills")

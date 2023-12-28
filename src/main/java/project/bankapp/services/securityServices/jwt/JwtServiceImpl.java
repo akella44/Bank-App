@@ -1,4 +1,4 @@
-package project.bankapp.services.security.jwt;
+package project.bankapp.services.securityServices.jwt;
 
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;

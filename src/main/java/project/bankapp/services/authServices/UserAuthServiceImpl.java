@@ -1,4 +1,4 @@
-package project.bankapp.services.auth;
+package project.bankapp.services.authServices;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -15,7 +15,7 @@ import project.bankapp.dto.requests.UserLoginRequest;
 import project.bankapp.dto.requests.UserRegisterRequest;
 import project.bankapp.dto.response.LoginResponse;
 import project.bankapp.enums.UserRole;
-import project.bankapp.services.security.jwt.JwtService;
+import project.bankapp.services.securityServices.jwt.JwtService;
 
 import javax.security.auth.login.CredentialException;
 

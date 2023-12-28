@@ -1,6 +1,5 @@
-package project.bankapp.services.bills;
+package project.bankapp.services.billServices;
 
-import project.bankapp.dto.models.BillModel;
 import project.bankapp.dto.models.UserModel;
 import project.bankapp.dto.requests.BillCreationRequest;
 import project.bankapp.dto.requests.BillsGetResponse;
