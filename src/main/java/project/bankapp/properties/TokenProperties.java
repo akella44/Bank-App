@@ -10,6 +10,6 @@ public class TokenProperties {
 
     private String secret;
 
-    private long timeToLive;
+    private int timeToLive;
 
 }

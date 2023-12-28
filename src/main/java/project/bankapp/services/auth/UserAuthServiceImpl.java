@@ -12,7 +12,9 @@ import project.bankapp.dao.UserDao;
 import project.bankapp.dto.models.TokenModel;
 import project.bankapp.dto.models.UserModel;
 import project.bankapp.dto.requests.UserLoginRequest;
+import project.bankapp.dto.requests.UserRegisterRequest;
 import project.bankapp.dto.response.LoginResponse;
+import project.bankapp.enums.UserRole;
 import project.bankapp.services.security.jwt.JwtService;
 
 import javax.security.auth.login.CredentialException;
@@ -20,9 +22,10 @@ import javax.security.auth.login.CredentialException;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class UserLoginService {
+public class UserAuthServiceImpl implements UserAuthService{
     private final UserDao userDao;
     private final JwtService jwtService;
+    @Override
     public LoginResponse login(UserLoginRequest userLoginRequest,
                                HttpServletRequest httpServletRequest,
                                HttpServletResponse servletResponse) throws CredentialException {
@@ -51,4 +54,18 @@ public class UserLoginService {
                 )
                 .build();
     }
+    @Override
+    public void register(UserRegisterRequest userRegisterRequest){
+        UserModel userModel = UserModel.builder()
+                .email(userRegisterRequest.getEmail())
+                .firstName(userRegisterRequest.getFirstName())
+                .secondName(userRegisterRequest.getSecondName())
+                .phoneNumber(userRegisterRequest.getPhoneNumber())
+                .birthDate(userRegisterRequest.getBirthDate())
+                .password(userRegisterRequest.getPassword())
+                .role(UserRole.USER)
+                .build();
+        userDao.addNewUser(userModel);
+    }
+
 }
