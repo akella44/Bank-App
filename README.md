@@ -1,9 +1,9 @@
 ### Description
 Study spring boot bank app project.
-##### Tech details
+#### Tech details
 The application is *stateless* and stores sessions using a JWT token (storage it in a cookie).
 All endpoints related to the application's business logic require user authorization.
-##### Api endpoints
+#### Api endpoints
 Api has following endpoints:
 |Name of endpoint|Description|GET|POST|
 |-----------------|----------------------|--|--|
