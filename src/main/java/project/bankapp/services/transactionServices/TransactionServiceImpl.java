@@ -20,29 +20,22 @@ public class TransactionServiceImpl implements TransactionService{
     private final BillDao billDao;
     private final TransactionDao transactionDao;
     @Override
-    public void transfer(CashTransferRequest cashTransferRequest, String email) throws WrongCardNumberException, WrongCurrencyTypeException, NotEnoughCashException, InvalidArgException {
+    public void transfer(CashTransferRequest cashTransferRequest, String email) throws WrongCardNumberException, WrongCurrencyTypeException, InvalidArgException, InvalidOpertaionException, NotEnoughCashException {
         //check if both cards exists
         if((!billDao.getUserCards(email).contains(cashTransferRequest.getFromCard())) ||
                 !billDao.isBillExistByCard(cashTransferRequest.getToCard()))
-            throw new WrongCardNumberException();
+            throw new WrongCardNumberException("Wrong card number");
         //check if both bills has same currency types
         if(!(billDao.getBillByCard(cashTransferRequest.getFromCard()).getCurrency() ==
                 billDao.getBillByCard(cashTransferRequest.getToCard()).getCurrency()))
-            throw new WrongCurrencyTypeException();
-
+            throw new WrongCurrencyTypeException("Currency of bills not same");
         try{
             billDao.decreaseBillBalance(cashTransferRequest.getValue(), cashTransferRequest.getFromCard());
         }
         catch (InvalidOpertaionException ex){
-            throw new NotEnoughCashException();
+            throw new NotEnoughCashException("Not enough cash for transfer");
         }
-
-        try{
-            billDao.increaseBillBalance(cashTransferRequest.getValue(), cashTransferRequest.getToCard());
-        }
-        catch (InvalidArgException ex){
-            throw new InvalidArgException();
-        }
+        billDao.increaseBillBalance(cashTransferRequest.getValue(), cashTransferRequest.getToCard());
 
         TransactionModel transaction = TransactionModel.builder()
                 .transactionType(TransactionType.TRANSFER)
@@ -55,27 +48,22 @@ public class TransactionServiceImpl implements TransactionService{
     }
 
     @Override
-    public void replenish(ReplenishmentRequest replenishmentRequest, String email) throws WrongCardNumberException {
+    public void replenish(ReplenishmentRequest replenishmentRequest, String email) throws WrongCardNumberException, InvalidArgException {
         if(!billDao.getUserCards(email).contains(replenishmentRequest.getCardNumber()))
-            throw new WrongCardNumberException();
+            throw new WrongCardNumberException("Wrong card number");
 
-        try {
-            billDao.increaseBillBalance(
-                    replenishmentRequest.getValue(),
-                    replenishmentRequest.getCardNumber()
-            );
+        billDao.increaseBillBalance(
+                replenishmentRequest.getValue(),
+                replenishmentRequest.getCardNumber()
+        );
 
-            TransactionModel transaction = TransactionModel.builder()
-                    .transactionType(TransactionType.REPLENISHMENT)
-                    .value(replenishmentRequest.getValue())
-                    .toBillEntity(billDao.getBillByCard(replenishmentRequest.getCardNumber()))
-                    .build();
+        TransactionModel transaction = TransactionModel.builder()
+                .transactionType(TransactionType.REPLENISHMENT)
+                .value(replenishmentRequest.getValue())
+                .toBillEntity(billDao.getBillByCard(replenishmentRequest.getCardNumber()))
+                .build();
 
-            transactionDao.addNewTransaction(transaction);
-        }
-        catch (InvalidArgException ex){
-            log.info("Error during replenishment");
-        }
+        transactionDao.addNewTransaction(transaction);
     }
 
     @Override

@@ -63,14 +63,10 @@ public class JwtServiceImpl implements JwtService {
     }
 
     public UserModel getUserModelByReqWithToken(HttpServletRequest request){
-        //todo
-        //exception here if jwt is null
         String jwt = getToken(request);
         UserModel user = parseToken(jwt);
         return  userDao.getUserByEmail(user.getEmail());
     }
-    //todo
-    //code repetition (same method in jwtfilter)
     private String getToken(HttpServletRequest request) {
         final String header = request.getHeader(HttpHeaders.AUTHORIZATION);
         if (isEmpty(header) || !header.startsWith("Bearer ")) {

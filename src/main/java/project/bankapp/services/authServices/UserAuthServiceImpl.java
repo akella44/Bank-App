@@ -29,10 +29,14 @@ public class UserAuthServiceImpl implements UserAuthService{
     public LoginResponse login(UserLoginRequest userLoginRequest,
                                HttpServletRequest httpServletRequest,
                                HttpServletResponse servletResponse) throws CredentialException {
-        if(!userDao.isUserCredsValid(userLoginRequest.getEmail(), userLoginRequest.getPassword())){
-            throw new CredentialException("Invalid email or password");
+
+        if(!userDao.isUserWithEmailExist(userLoginRequest.getEmail())){
+            throw new CredentialException("Invalid email");
         }
-        log.info("user login service: " + userLoginRequest.getEmail());
+        if(!userDao.isUserPasswordValid(userLoginRequest.getEmail(), userLoginRequest.getPassword())){
+            throw new CredentialException("Invalid password");
+        }
+
         UserModel user = userDao.getUserByEmail(userLoginRequest.getEmail());
 
         UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(

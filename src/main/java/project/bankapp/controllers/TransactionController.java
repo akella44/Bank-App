@@ -9,10 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import project.bankapp.dto.requests.CashTransferRequest;
 import project.bankapp.dto.requests.ReplenishmentRequest;
 import project.bankapp.dto.requests.TransactionsGetResponse;
-import project.bankapp.exceptions.InvalidArgException;
-import project.bankapp.exceptions.NotEnoughCashException;
-import project.bankapp.exceptions.WrongCardNumberException;
-import project.bankapp.exceptions.WrongCurrencyTypeException;
+import project.bankapp.exceptions.*;
 import project.bankapp.services.securityServices.jwt.JwtService;
 import project.bankapp.services.transactionServices.TransactionService;
 
@@ -28,43 +25,25 @@ public class TransactionController {
     @PostMapping("/replenishment")
     @PreAuthorize("hasAuthority('USER')")
     HttpStatus topUpUserBill(@RequestBody ReplenishmentRequest replenishmentRequest,
-                             HttpServletRequest request) throws WrongCardNumberException {
-        try{
-            transactionService.replenish(replenishmentRequest, jwtService.getUserModelByReqWithToken(request).getEmail());
-            return HttpStatus.OK;
-        }
-        catch (WrongCardNumberException ex){
-            return HttpStatus.BAD_REQUEST;
-        }
-        catch (Exception ex){
-            return HttpStatus.INTERNAL_SERVER_ERROR;
-        }
+                             HttpServletRequest request) throws WrongCardNumberException, InvalidArgException {
+        transactionService.replenish(replenishmentRequest, jwtService.getUserModelByReqWithToken(request).getEmail());
+        return HttpStatus.OK;
     }
 
     @PostMapping("/transfer")
     @PreAuthorize("hasAuthority('USER')")
     HttpStatus transferMoney(@RequestBody CashTransferRequest cashTransferRequest,
-                             HttpServletRequest request) {
-        try{
-            transactionService.transfer(cashTransferRequest, jwtService.getUserModelByReqWithToken(request).getEmail());
-            return HttpStatus.OK;
-        }
-        catch (InvalidArgException | WrongCurrencyTypeException | NotEnoughCashException ex){
-            return HttpStatus.BAD_REQUEST;
-        } catch (Exception ex){
-            return HttpStatus.INTERNAL_SERVER_ERROR;
-        }
+                             HttpServletRequest request) throws WrongCardNumberException, WrongCurrencyTypeException,
+            NotEnoughCashException, InvalidOpertaionException, InvalidArgException {
+
+        transactionService.transfer(cashTransferRequest, jwtService.getUserModelByReqWithToken(request).getEmail());
+        return HttpStatus.OK;
     }
 
     @GetMapping("/transactions")
     @PreAuthorize("hasAuthority('USER')")
     List<TransactionsGetResponse> transferMoney(HttpServletRequest request) {
-       try{
            return transactionService.getTransactions(
                    jwtService.getUserModelByReqWithToken(request).getEmail());
-       }
-       catch (Exception ex){
-           return null;
-       }
     }
 }

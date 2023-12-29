@@ -19,7 +19,7 @@ public class TransactionModel {
 
     public static TransactionModel fromEntity(TransactionEntity transactionEntity){
         return TransactionModel.builder()
-                //when transactionType is REPLENISHMENT, fromBill is null
+                //when transactionType is REPLENISHMENT, fromBill and fromUser are null
                 .fromBillEntity((Optional.ofNullable(transactionEntity.getFromBillEntity())
                         .map(BillModel::fromEntity)
                         .orElse(null)))

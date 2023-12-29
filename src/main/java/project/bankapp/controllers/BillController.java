@@ -23,13 +23,11 @@ public class BillController {
     private final JwtService jwtService;
     @GetMapping("")
     @PreAuthorize("hasAuthority('USER')")
-    ResponseEntity<List<BillsGetResponse>> getUserBills(HttpServletRequest request){
+    List<BillsGetResponse> getUserBills(HttpServletRequest request){
         try {
-            return ResponseEntity.ok(
-                    billService.getUserBills(
-                            jwtService.getUserModelByReqWithToken(request)
-                                    .getEmail()
-                    )
+            return billService.getUserBills(
+                jwtService.getUserModelByReqWithToken(request)
+                        .getEmail()
             );
         }
         catch (Exception ex){

@@ -45,7 +45,7 @@ public class BillDao {
         BillEntity billEntity = billRepository.findByCardNumber(cardNumber);
 
         if(!(value >= 0))
-            throw new InvalidArgException();
+            throw new InvalidArgException("The replenishment amount cannot be negative");
 
         billEntity.setValue(billEntity.getValue() + value);
         billRepository.save(billEntity);

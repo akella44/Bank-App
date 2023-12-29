@@ -1,5 +1,10 @@
 package project.bankapp.exceptions;
 
-public class WrongCardNumberException extends Exception {
+import lombok.NoArgsConstructor;
 
+@NoArgsConstructor
+public class WrongCardNumberException extends Exception {
+    public WrongCardNumberException(String message){
+        super(message);
+    }
 }
